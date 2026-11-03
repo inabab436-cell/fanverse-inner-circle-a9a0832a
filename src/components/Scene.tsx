@@ -49,7 +49,7 @@ export function Scene({
   useEffect(() => {
     const el = viewRef.current;
     if (!el) return;
-    const ro = new ResizeObserver(([e]) => setView({ w: e.contentRect.width, h: e.contentRect.height }));
+    const ro = new ResizeObserver(([e]) => e && setView({ w: e.contentRect.width, h: e.contentRect.height }));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -60,6 +60,7 @@ export function Scene({
       setNpcPos((ps) => ps.map((p, i) => {
         if (Math.random() > 0.35) return p;
         const home = npcs[i];
+        if (!home) return p;
         const nx = clamp(home.x + (Math.random() * 16 - 8), 6, 94);
         const ny = clamp(home.y + (Math.random() * 8 - 4), walk.minY, walk.maxY);
         return { x: nx, y: ny, flip: nx < p.x };
@@ -97,7 +98,7 @@ export function Scene({
     setTimeout(() => setFloats((f) => f.filter((x) => x.id !== id)), 1400);
   }
 
-  const sprites = [...npcs.map((n, i) => ({ ...n, ...(npcPos[i] ?? n), i, me: false })), { src: boy, x: pos.x, y: pos.y, msg: "", i: -1, me: true, flip }];
+  const sprites = [...npcs.map((n, i) => ({ ...n, flip: false, ...(npcPos[i] ?? n), i, me: false })), { src: boy, x: pos.x, y: pos.y, msg: "", i: -1, me: true, flip }];
 
   return (
     <main dir="ltr" className="flex h-dvh w-full items-center justify-center overflow-hidden bg-night select-none">
