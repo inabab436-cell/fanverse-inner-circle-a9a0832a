@@ -46,7 +46,7 @@ function Shop() {
       walk={{ minY: 40, maxY: 88 }}
       npcs={[
         { src: SPRITES.girl2, x: 30, y: 52, msg: "الهودي تحفة 😍" },
-        { src: SPRITES.boy, x: 72, y: 64, msg: "🛍️" },
+        { src: SPRITES.boy2, x: 72, y: 64, msg: "🛍️" },
       ]}
       hotspots={[{ x: 50, y: 86, to: "/", label: "⭐ الساحة" }]}
     >

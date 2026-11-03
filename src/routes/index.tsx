@@ -14,8 +14,8 @@ export const Route = createFileRoute("/")({
       npcs={[
         { src: SPRITES.girl2, x: 30, y: 40, msg: "أهلاً! 👋" },
         { src: SPRITES.girl, x: 70, y: 42, msg: "يلا المسرح 🎤" },
-        { src: SPRITES.boy, x: 26, y: 62, msg: "😍" },
-        { src: SPRITES.girl, x: 74, y: 64, msg: "💜" },
+        { src: SPRITES.boy3, x: 26, y: 62, msg: "😍" },
+        { src: SPRITES.girl3, x: 74, y: 64, msg: "💜" },
       ]}
       lights={[
         { x: 10, y: 14, s: 14, kind: "lamp" }, { x: 29, y: 21, s: 8, kind: "lamp" }, { x: 46, y: 39, s: 6, kind: "lamp" },
