@@ -264,3 +264,21 @@
 }
 @keyframes pulse-soft { 0%,100% { box-shadow: 0 0 10px var(--neon-pink) } 50% { box-shadow: 0 0 24px var(--neon-cyan) } }
 @utility animate-pulse-soft { animation: pulse-soft 1.8s ease-in-out infinite; }
+
+@keyframes idle { 0%,100% { scale: 1 1 } 50% { scale: 1.015 0.985 } }
+@utility animate-idle { animation: idle 2.6s ease-in-out infinite; }
+@keyframes hover-soft { 0%,100% { transform: translate(-50%,-50%) } 50% { transform: translate(-50%,-62%) } }
+@utility animate-hover-soft { animation: hover-soft 2.4s ease-in-out infinite; }
+@keyframes mote { 0% { transform: translate(0,0); opacity: 0 } 20% { opacity: .9 } 80% { opacity: .7 } 100% { transform: translate(24px,-90px); opacity: 0 } }
+@utility mote {
+  width: 6px; height: 6px;
+  background: radial-gradient(circle, oklch(0.97 0.08 85), transparent 70%);
+  box-shadow: 0 0 8px 2px oklch(0.9 0.12 80 / .5);
+  animation: mote 8s ease-in-out infinite;
+}
+@keyframes glow-breathe { 0%,100% { opacity: .55 } 50% { opacity: .8 } }
+@utility ambient-glow {
+  background: radial-gradient(ellipse at 50% 20%, oklch(0.9 0.1 70 / .18), transparent 60%), radial-gradient(ellipse at 50% 110%, oklch(0.3 0.08 300 / .35), transparent 55%);
+  mix-blend-mode: soft-light;
+  animation: glow-breathe 6s ease-in-out infinite;
+}
