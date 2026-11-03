@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ShoppingBag, X } from "lucide-react";
-import { Scene } from "@/components/Scene";
-import { LOOKS } from "@/components/world/Chibi";
+import { Scene, SPRITES } from "@/components/Scene";
 import { pageHead } from "@/lib/head";
+import bg from "@/assets/bg-shop.jpg";
 
 export const Route = createFileRoute("/shop")({
   head: () => pageHead("المتجر", "تيشيرتات وهوديز وهدايا للفانز."),
@@ -41,22 +41,14 @@ function Shop() {
 
   return (
     <Scene
-      floor="iso"
-      props={[
-        { kind: "shelf", x: 14, y: 22 }, { kind: "sign", x: 50, y: 8, label: "Merch 🛍️" }, { kind: "shelf", x: 86, y: 22 },
-        { kind: "counter", x: 50, y: 30, s: 0.6 }, { kind: "plant", x: 28, y: 30 }, { kind: "plant", x: 72, y: 30 },
-        { kind: "rack", x: 24, y: 52 }, { kind: "rack", x: 76, y: 52 },
-        { kind: "rug", x: 50, y: 66, c: "oklch(0.75 0.06 160 / .4)" }, { kind: "table", x: 50, y: 68 },
-        { kind: "rack", x: 22, y: 82 }, { kind: "shelf", x: 80, y: 84, s: 0.8 },
-        { kind: "plant", x: 6, y: 60 }, { kind: "plant", x: 94, y: 60 }, { kind: "plant", x: 36, y: 97 }, { kind: "plant", x: 64, y: 97 },
-      ]}
+      bg={bg}
       title="المتجر"
-      walk={{ minY: 40, maxY: 94 }}
+      walk={{ minY: 40, maxY: 88 }}
       npcs={[
-        { look: LOOKS.girl2, x: 34, y: 56, msg: "الهودي تحفة 😍" },
-        { look: LOOKS.boy, x: 70, y: 70, msg: "🛍️" },
+        { src: SPRITES.girl2, x: 30, y: 52, msg: "الهودي تحفة 😍" },
+        { src: SPRITES.boy, x: 72, y: 64, msg: "🛍️" },
       ]}
-      hotspots={[{ x: 50, y: 97, to: "/", label: "⭐ الساحة" }]}
+      hotspots={[{ x: 50, y: 86, to: "/", label: "⭐ الساحة" }]}
     >
       <button onClick={() => setOpen(true)} className="neon-chip absolute left-1/2 top-[20%] z-[1700] flex -translate-x-1/2 items-center gap-1 animate-pulse-soft">
         <ShoppingBag className="size-4" /> تسوّق · 🪙 {coins}

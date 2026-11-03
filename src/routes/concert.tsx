@@ -1,9 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent } from "react";
 import { Clapperboard, X } from "lucide-react";
-import { Scene } from "@/components/Scene";
-import { LOOKS } from "@/components/world/Chibi";
+import { Scene, SPRITES } from "@/components/Scene";
 import { pageHead } from "@/lib/head";
+import bg from "@/assets/bg-concert.jpg";
 
 export const Route = createFileRoute("/concert")({
   head: () => pageHead("المسرح", "شاهد كليبات الفنان واستمتع بالعروض الجماعية مع الفانز."),
@@ -30,27 +30,18 @@ function Concert() {
 
   return (
     <Scene
-      floor="iso"
-      wall={14}
-      props={[
-        { kind: "stage", x: 50, y: 34 }, { kind: "speaker", x: 8, y: 32 }, { kind: "speaker", x: 92, y: 32 },
-        { kind: "light", x: 30, y: 58 }, { kind: "light", x: 70, y: 62 },
-        { kind: "plant", x: 5, y: 50 }, { kind: "plant", x: 95, y: 50 },
-        { kind: "sofaSide", x: 6, y: 78 }, { kind: "sofaSide", x: 94, y: 78 },
-        { kind: "stool", x: 14, y: 92 }, { kind: "stool", x: 86, y: 92 },
-        { kind: "plant", x: 40, y: 97 }, { kind: "plant", x: 60, y: 97 },
-      ]}
+      bg={bg}
       title="المسرح"
       start={{ x: 50, y: 78 }}
-      walk={{ minY: 44, maxY: 94 }}
+      walk={{ minY: 50, maxY: 90 }}
       npcs={[
-        { look: LOOKS.girl2, x: 32, y: 56, msg: "🔥🔥" },
-        { look: LOOKS.girl, x: 66, y: 54, msg: "بحبها! 💜" },
-        { look: LOOKS.boy, x: 22, y: 76, msg: "👏" },
-        { look: LOOKS.boy2, x: 78, y: 78, msg: "🎶" },
-        { look: LOOKS.bob, x: 50, y: 60, msg: "😍" },
+        { src: SPRITES.girl2, x: 32, y: 62, msg: "🔥🔥" },
+        { src: SPRITES.girl, x: 66, y: 60, msg: "بحبها! 💜" },
+        { src: SPRITES.boy, x: 22, y: 80, msg: "👏" },
+        { src: SPRITES.boy, x: 78, y: 82, msg: "🎶" },
+        { src: SPRITES.girl, x: 50, y: 64, msg: "😍" },
       ]}
-      hotspots={[{ x: 50, y: 97, to: "/", label: "⭐ الساحة" }]}
+      hotspots={[{ x: 50, y: 86, to: "/", label: "⭐ الساحة" }]}
     >
       {video && (
         <div className="neon-panel absolute left-[29%] top-[4.5%] z-[1600] aspect-video w-[42%] overflow-hidden rounded-md">

@@ -10,4 +10,3 @@
 <!-- LOVABLE:END -->
 
 - The product is a portrait-only 2D pixel-art world: each area (plaza, cafe, concert, rooms, shop) is its own route rendering the shared Scene component (background image + sprites in % coordinates); keep legacy database tables untouched while their UI is retired, to avoid destructive data loss.
-- World art is code-drawn (SVG chibis in src/components/world/Chibi.tsx, props in Props.tsx, CSS floors in styles.css); the user rejected image-based backgrounds/sprites — never reintroduce pictures for places or characters.
