@@ -8,6 +8,7 @@ import { PLACES } from "@/lib/places";
 
 export const SPRITES = { boy, girl, girl2 };
 export type Npc = { src: string; x: number; y: number; msg: string };
+export type Light = { x: number; y: number; s: number; kind: "lamp" | "spot" | "floor" };
 export type Hotspot = { x: number; y: number; to: (typeof PLACES)[number]["to"]; label: string };
 
 const REACTIONS = [
@@ -19,9 +20,9 @@ const REACTIONS = [
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
 export function Scene({
-  bg, title, npcs, hotspots = [], walk = { minY: 36, maxY: 92 }, start = { x: 50, y: 70 }, children,
+  bg, title, npcs, hotspots = [], lights = [], walk = { minY: 36, maxY: 92 }, start = { x: 50, y: 70 }, children,
 }: {
-  bg: string; title: string; npcs: Npc[]; hotspots?: Hotspot[];
+  bg: string; title: string; npcs: Npc[]; hotspots?: Hotspot[]; lights?: Light[];
   walk?: { minY: number; maxY: number }; start?: { x: number; y: number }; children?: ReactNode;
 }) {
   const [pos, setPos] = useState(start);
@@ -112,8 +113,12 @@ export function Scene({
           style={{ width: W || "100%", height: WH || "100%", transform: `translate3d(${camX}px, ${camY}px, 0)`, transition: view.w ? `transform ${dur}ms linear` : undefined }}>
         <img src={bg} alt={title} width={1536} height={1920} className="scene-vivid absolute inset-0 h-full w-full object-cover" />
         <div className="ambient-glow pointer-events-none absolute inset-0" />
+        {lights.map((l, k) => (
+          <span key={k} className={`pointer-events-none absolute rounded-full ${l.kind}`}
+            style={{ left: `${l.x}%`, top: `${l.y}%`, width: `${l.s}%`, aspectRatio: "1", animationDelay: `${(k % 5) * 0.6}s` }} />
+        ))}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          {Array.from({ length: 18 }, (_, k) => (
+          {Array.from({ length: 8 }, (_, k) => (
             <span key={k} className="mote absolute rounded-full"
               style={{ left: `${(k * 37) % 100}%`, top: `${(k * 53) % 100}%`, animationDelay: `${(k % 6) * 1.3}s`, animationDuration: `${7 + (k % 5)}s` }} />
           ))}
@@ -125,7 +130,7 @@ export function Scene({
               style={{ left: `${s.x}%`, top: `${s.y}%`, zIndex: Math.round(s.y * 10), transform: "translate(-50%, -100%)", transition: s.me ? `left ${dur}ms linear, top ${dur}ms linear` : "left 2s ease-in-out, top 2s ease-in-out" }}>
               {s.me && (
                 <>
-                  <span className="glow-ring animate-ring absolute left-1/2 top-full size-16 rounded-full border-2 border-neon-cyan" />
+                  <span className="glow-ring animate-ring absolute left-1/2 top-full size-12 rounded-full border border-neon-cyan/70" />
                   <span className="absolute -top-6 left-1/2 -translate-x-1/2 text-neon-cyan drop-shadow">▼</span>
                   {floats.map((f) => <span key={f.id} className="animate-float-up absolute -top-4 text-2xl" style={{ left: `calc(50% + ${f.dx}px)` }}>{f.e}</span>)}
                 </>
@@ -138,7 +143,7 @@ export function Scene({
               )}
               <span className="absolute bottom-0 left-1/2 h-3 w-3/4 -translate-x-1/2 translate-y-1/2 rounded-[50%] bg-night/60 blur-[3px]" />
               <img src={s.src} alt="" className={`relative w-auto origin-bottom drop-shadow-[0_6px_8px_var(--night)] ${s.me && walking ? "animate-bob" : "animate-idle"}`}
-                style={{ height: `calc(clamp(100px,17dvh,175px) * ${(0.6 + s.y / 160).toFixed(2)})`, transform: s.flip ? "scaleX(-1)" : undefined, animationDelay: `${(s.i + 1) * 0.37}s` }} />
+                style={{ height: `calc(clamp(64px,11dvh,110px) * ${(0.7 + s.y / 200).toFixed(2)})`, transform: s.flip ? "scaleX(-1)" : undefined, animationDelay: `${(s.i + 1) * 0.37}s` }} />
             </div>
           ))}
         </div>
