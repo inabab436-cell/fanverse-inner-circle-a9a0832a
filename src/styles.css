@@ -282,3 +282,53 @@
   mix-blend-mode: soft-light;
   animation: glow-breathe 6s ease-in-out infinite;
 }
+
+/* ---------- Code-drawn world palette (calm evening, low glow) ---------- */
+:root {
+  --leaf-1: oklch(0.58 0.11 150); --leaf-2: oklch(0.48 0.1 155); --leaf-3: oklch(0.66 0.12 140);
+  --trunk: oklch(0.42 0.06 55); --pot: oklch(0.93 0.01 80); --pot-rim: oklch(0.97 0.005 80);
+  --shade: oklch(0.2 0.03 300 / .25);
+  --wood: oklch(0.55 0.08 55); --wood-d: oklch(0.42 0.07 50);
+  --candle: oklch(0.96 0.02 85); --flame: oklch(0.88 0.13 75);
+  --cushion: oklch(0.45 0.1 295);
+  --sofa: oklch(0.5 0.11 295); --sofa-d: oklch(0.42 0.1 295);
+  --pillow: oklch(0.88 0.05 340); --pillow-2: oklch(0.86 0.08 80);
+  --metal: oklch(0.32 0.02 290); --shade-lamp: oklch(0.9 0.05 80);
+  --rug: oklch(0.55 0.08 300 / .55); --rug-edge: oklch(0.7 0.06 310 / .5);
+  --counter-top: oklch(0.88 0.03 70); --glass-case: oklch(0.85 0.04 220 / .8);
+  --screen-frame: oklch(0.22 0.04 290); --stage-front: oklch(0.3 0.06 295); --stage-top: oklch(0.42 0.08 295); --dj: oklch(0.24 0.03 290);
+  --stone: oklch(0.82 0.02 70); --stone-d: oklch(0.68 0.03 60); --water: oklch(0.7 0.1 225); --water-hi: oklch(0.92 0.05 220);
+  --merch-1: oklch(0.82 0.08 350); --merch-2: oklch(0.8 0.07 160); --merch-3: oklch(0.93 0.02 80); --merch-4: oklch(0.35 0.04 270);
+  --wall-trim: oklch(0.3 0.04 290); --sky: oklch(0.32 0.08 280); --moon: oklch(0.95 0.04 90); --city: oklch(0.22 0.05 285);
+  --flower-1: oklch(0.8 0.12 350); --flower-2: oklch(0.9 0.1 90); --flower-3: oklch(0.85 0.06 300);
+}
+.floor-wood { background: repeating-linear-gradient(90deg, oklch(0.5 0.07 50) 0 2px, transparent 2px 64px), repeating-linear-gradient(0deg, oklch(0.56 0.08 55) 0 22px, oklch(0.53 0.075 52) 22px 24px); }
+.floor-plank { background: repeating-linear-gradient(0deg, oklch(0.4 0.05 300) 0 26px, oklch(0.37 0.05 300) 26px 28px); }
+.floor-tile { background: conic-gradient(oklch(0.47 0.07 300) 25%, oklch(0.43 0.07 300) 0 50%, oklch(0.47 0.07 300) 0 75%, oklch(0.43 0.07 300) 0) 0 0 / 72px 72px; }
+.floor-stone { background: radial-gradient(circle at 50% 50%, transparent 60%, oklch(0.68 0.03 60 / .5) 62%) 0 0 / 46px 30px, oklch(0.78 0.03 65); }
+.floor-carpet { background: radial-gradient(oklch(0.48 0.06 300 / .6) 1px, transparent 1.5px) 0 0 / 14px 14px, oklch(0.42 0.06 300); }
+.wall-wood, .wall-carpet, .wall-tile, .wall-plank { background: linear-gradient(oklch(0.3 0.05 295), oklch(0.36 0.06 300)); border-bottom: 10px solid oklch(0.26 0.04 290); }
+.wall-stone { background: linear-gradient(oklch(0.58 0.08 290), oklch(0.78 0.07 50)); border-bottom: 8px solid oklch(0.6 0.03 60); }
+.floor-vignette { background: radial-gradient(ellipse at 50% 55%, transparent 55%, oklch(0.15 0.04 300 / .35)); }
+.lamp-pool { background: radial-gradient(closest-side, oklch(0.9 0.1 75 / .22), transparent); }
+.me-ring { border: 2px solid var(--neon-cyan); opacity: .8; }
+.sign { background: oklch(0.25 0.04 290 / .9); color: oklch(0.9 0.1 75); border: 1px solid oklch(0.9 0.1 75 / .4); white-space: nowrap; }
+.screen { fill: oklch(0.4 0.12 300); animation: screen-shift 6s ease-in-out infinite; }
+.water { fill: var(--water); animation: water 3s ease-in-out infinite; }
+.sway { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 4s ease-in-out infinite; }
+.flicker { animation: flicker 1.8s ease-in-out infinite; }
+.thump { transform-box: fill-box; transform-origin: center; animation: thump .6s ease-in-out infinite; }
+.spray { animation: water 1.4s ease-in-out infinite; }
+.chibi-idle .body { animation: breathe 2.6s ease-in-out infinite; transform-origin: 30px 70px; }
+.chibi-walk .leg-l { animation: step .4s ease-in-out infinite; transform-origin: 25px 64px; }
+.chibi-walk .leg-r { animation: step .4s ease-in-out infinite reverse; transform-origin: 34px 64px; }
+.chibi-walk .arm-l { animation: step .4s ease-in-out infinite reverse; transform-origin: 16px 48px; }
+.chibi-walk .arm-r { animation: step .4s ease-in-out infinite; transform-origin: 44px 48px; }
+.chibi-walk .body { animation: bob .4s ease-in-out infinite; }
+@keyframes step { 0%,100% { transform: rotate(-14deg) } 50% { transform: rotate(14deg) } }
+@keyframes breathe { 0%,100% { transform: scale(1,1) } 50% { transform: scale(1.01,.985) } }
+@keyframes sway { 0%,100% { transform: rotate(-2deg) } 50% { transform: rotate(2deg) } }
+@keyframes flicker { 0%,100% { opacity: 1 } 45% { opacity: .75 } 60% { opacity: .95 } }
+@keyframes thump { 0%,100% { transform: scale(1) } 50% { transform: scale(1.08) } }
+@keyframes water { 0%,100% { opacity: 1 } 50% { opacity: .8 } }
+@keyframes screen-shift { 0%,100% { fill: oklch(0.4 0.12 300) } 50% { fill: oklch(0.42 0.1 250) } }

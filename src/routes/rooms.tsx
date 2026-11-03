@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { DoorOpen, Link2, Plus, X } from "lucide-react";
-import { Scene, SPRITES } from "@/components/Scene";
+import { Scene } from "@/components/Scene";
+import { LOOKS } from "@/components/world/Chibi";
 import { pageHead } from "@/lib/head";
-import bg from "@/assets/bg-room.jpg";
 
 export const Route = createFileRoute("/rooms")({
   validateSearch: (s: Record<string, unknown>) => ({ r: typeof s["r"] === "string" ? (s["r"] as string).slice(0, 30) : undefined }),
@@ -39,14 +39,20 @@ function Rooms() {
 
   return (
     <Scene
-      bg={bg}
+      floor="carpet"
+      props={[
+        { kind: "bookshelf", x: 12, y: 22 }, { kind: "window", x: 50, y: 18 }, { kind: "plant", x: 88, y: 22 },
+        { kind: "light", x: 40, y: 44 }, { kind: "beanbag", x: 30, y: 40 }, { kind: "beanbag", x: 56, y: 40, c: "oklch(0.85 0.04 80)" }, { kind: "table", x: 43, y: 46, s: 0.8 },
+        { kind: "rug", x: 70, y: 66 }, { kind: "sofaSide", x: 92, y: 66 }, { kind: "table", x: 72, y: 68 },
+        { kind: "lamp", x: 6, y: 56 }, { kind: "beanbag", x: 20, y: 80 }, { kind: "plant", x: 92, y: 92 },
+      ]}
       title={r ? `صالة ${r}` : "الصالات"}
-      walk={{ minY: 40, maxY: 88 }}
+      walk={{ minY: 36, maxY: 94 }}
       npcs={r ? [
-        { src: SPRITES.girl, x: 64, y: 44, msg: "نورت الصالة 💜" },
-        { src: SPRITES.girl2, x: 36, y: 60, msg: "🎶" },
+        { look: LOOKS.girl, x: 64, y: 48, msg: "نورت الصالة 💜" },
+        { look: LOOKS.girl2, x: 36, y: 62, msg: "🎶" },
       ] : []}
-      hotspots={[{ x: 50, y: 86, to: "/", label: "⭐ الساحة" }]}
+      hotspots={[{ x: 50, y: 97, to: "/", label: "⭐ الساحة" }]}
     >
       <div className="absolute left-1/2 top-[20%] z-[1700] flex -translate-x-1/2 gap-2">
         <button onClick={() => setOpen(true)} className="neon-chip flex items-center gap-1"><DoorOpen className="size-4" /> صالاتي</button>
