@@ -36,7 +36,7 @@ export function Scene({
   const [npcMsg, setNpcMsg] = useState(0);
   const [map, setMap] = useState(false);
   const [reacts, setReacts] = useState(false);
-  const [npcPos, setNpcPos] = useState(() => npcs.map((n) => ({ x: n.x, y: n.y, flip: false })));
+  const [npcPos, setNpcPos] = useState(() => npcs.map((n) => ({ x: n.x, y: n.y, flip: false, m: 0 })));
   const [view, setView] = useState({ w: 0, h: 0 });
   const viewRef = useRef<HTMLDivElement>(null);
   const walkTimer = useRef(0);
@@ -64,7 +64,7 @@ export function Scene({
         if (!home) return p;
         const nx = clamp(home.x + (Math.random() * 16 - 8), 6, 94);
         const ny = clamp(home.y + (Math.random() * 8 - 4), walk.minY, walk.maxY);
-        return { x: nx, y: ny, flip: nx < p.x };
+        return { x: nx, y: ny, flip: nx < p.x, m: Date.now() };
       }));
     }, 2200);
     return () => clearInterval(t);
@@ -142,7 +142,7 @@ export function Scene({
                 </div>
               )}
               <span className="absolute bottom-0 left-1/2 h-3 w-3/4 -translate-x-1/2 translate-y-1/2 rounded-[50%] bg-night/60 blur-[3px]" />
-              <img src={s.src} alt="" className={`relative w-auto origin-bottom drop-shadow-[0_6px_8px_var(--night)] ${s.me && walking ? "animate-bob" : "animate-idle"}`}
+              <img src={s.src} alt="" className={`relative w-auto origin-bottom drop-shadow-[0_6px_8px_var(--night)] ${(s.me ? walking : Date.now() - ((s as { m?: number }).m ?? 0) < 2200) ? "animate-bob" : "animate-idle"}`}
                 style={{ height: `calc(clamp(80px,14dvh,140px) * ${(0.7 + s.y / 200).toFixed(2)})`, transform: s.flip ? "scaleX(-1)" : undefined, animationDelay: `${(s.i + 1) * 0.37}s` }} />
             </div>
           ))}
