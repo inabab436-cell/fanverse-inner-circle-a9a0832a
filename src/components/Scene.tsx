@@ -35,6 +35,9 @@ export function Scene({
   const [npcMsg, setNpcMsg] = useState(0);
   const [map, setMap] = useState(false);
   const [reacts, setReacts] = useState(false);
+  const [npcPos, setNpcPos] = useState(() => npcs.map((n) => ({ x: n.x, y: n.y, flip: false })));
+  const [view, setView] = useState({ w: 0, h: 0 });
+  const viewRef = useRef<HTMLDivElement>(null);
   const walkTimer = useRef(0);
   const bubbleTimer = useRef(0);
 
@@ -42,6 +45,36 @@ export function Scene({
     const t = setInterval(() => setNpcMsg((n) => (n + 1) % Math.max(1, npcs.length)), 2600);
     return () => clearInterval(t);
   }, [npcs.length]);
+
+  useEffect(() => {
+    const el = viewRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([e]) => e && setView({ w: e.contentRect.width, h: e.contentRect.height }));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // NPCs wander gently around their home spot
+  useEffect(() => {
+    const t = setInterval(() => {
+      setNpcPos((ps) => ps.map((p, i) => {
+        if (Math.random() > 0.35) return p;
+        const home = npcs[i];
+        if (!home) return p;
+        const nx = clamp(home.x + (Math.random() * 16 - 8), 6, 94);
+        const ny = clamp(home.y + (Math.random() * 8 - 4), walk.minY, walk.maxY);
+        return { x: nx, y: ny, flip: nx < p.x };
+      }));
+    }, 2200);
+    return () => clearInterval(t);
+  }, [npcs, walk.minY, walk.maxY]);
+
+  // World is bigger than the screen; camera follows the player
+  const H = view.h * 1.35;
+  const W = Math.max(view.w, H * 0.8);
+  const WH = W / 0.8;
+  const camX = view.w ? clamp(view.w / 2 - (pos.x / 100) * W, view.w - W, 0) : 0;
+  const camY = view.h ? clamp(view.h * 0.6 - (pos.y / 100) * WH, view.h - WH, 0) : 0;
 
   function onWalk(e: PointerEvent<HTMLDivElement>) {
     const r = e.currentTarget.getBoundingClientRect();
@@ -65,7 +98,7 @@ export function Scene({
     setTimeout(() => setFloats((f) => f.filter((x) => x.id !== id)), 1400);
   }
 
-  const sprites = [...npcs.map((n, i) => ({ ...n, i, me: false })), { src: boy, x: pos.x, y: pos.y, msg: "", i: -1, me: true }];
+  const sprites = [...npcs.map((n, i) => ({ ...n, flip: false, ...(npcPos[i] ?? n), i, me: false })), { src: boy, x: pos.x, y: pos.y, msg: "", i: -1, me: true, flip }];
 
   return (
     <main dir="ltr" className="flex h-dvh w-full items-center justify-center overflow-hidden bg-night select-none">
@@ -74,13 +107,22 @@ export function Scene({
         <p className="font-semibold">لف الموبايل للوضع الرأسي</p>
       </div>
 
-      <div className="relative h-full w-full max-w-[calc(100dvh*2/3)] overflow-hidden">
-        <img src={bg} alt={title} width={1024} height={1536} className="scene-vivid absolute inset-0 h-full w-full object-cover" />
+      <div ref={viewRef} className="relative h-full w-full max-w-[calc(100dvh*2/3)] overflow-hidden">
+        <div className="absolute left-0 top-0 will-change-transform"
+          style={{ width: W || "100%", height: WH || "100%", transform: `translate3d(${camX}px, ${camY}px, 0)`, transition: view.w ? `transform ${dur}ms linear` : undefined }}>
+        <img src={bg} alt={title} width={1536} height={1920} className="scene-vivid absolute inset-0 h-full w-full object-cover" />
+        <div className="ambient-glow pointer-events-none absolute inset-0" />
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {Array.from({ length: 18 }, (_, k) => (
+            <span key={k} className="mote absolute rounded-full"
+              style={{ left: `${(k * 37) % 100}%`, top: `${(k * 53) % 100}%`, animationDelay: `${(k % 6) * 1.3}s`, animationDuration: `${7 + (k % 5)}s` }} />
+          ))}
+        </div>
 
         <div className="absolute inset-0" onPointerDown={onWalk}>
           {sprites.map((s) => (
             <div key={s.i} className="pointer-events-none absolute"
-              style={{ left: `${s.x}%`, top: `${s.y}%`, zIndex: Math.round(s.y * 10), transform: "translate(-50%, -100%)", transition: s.me ? `left ${dur}ms linear, top ${dur}ms linear` : undefined }}>
+              style={{ left: `${s.x}%`, top: `${s.y}%`, zIndex: Math.round(s.y * 10), transform: "translate(-50%, -100%)", transition: s.me ? `left ${dur}ms linear, top ${dur}ms linear` : "left 2s ease-in-out, top 2s ease-in-out" }}>
               {s.me && (
                 <>
                   <span className="glow-ring animate-ring absolute left-1/2 top-full size-16 rounded-full border-2 border-neon-cyan" />
@@ -95,16 +137,17 @@ export function Scene({
                 </div>
               )}
               <span className="absolute bottom-0 left-1/2 h-3 w-3/4 -translate-x-1/2 translate-y-1/2 rounded-[50%] bg-night/60 blur-[3px]" />
-              <img src={s.src} alt="" className={`relative w-auto drop-shadow-[0_6px_8px_var(--night)] ${s.me && walking ? "animate-bob" : ""}`}
-                style={{ height: `calc(clamp(110px,19dvh,190px) * ${(0.55 + s.y / 140).toFixed(2)})`, transform: s.me && flip ? "scaleX(-1)" : undefined }} />
+              <img src={s.src} alt="" className={`relative w-auto origin-bottom drop-shadow-[0_6px_8px_var(--night)] ${s.me && walking ? "animate-bob" : "animate-idle"}`}
+                style={{ height: `calc(clamp(100px,17dvh,175px) * ${(0.6 + s.y / 160).toFixed(2)})`, transform: s.flip ? "scaleX(-1)" : undefined, animationDelay: `${(s.i + 1) * 0.37}s` }} />
             </div>
           ))}
         </div>
 
         {hotspots.map((h) => (
-          <Link key={h.to} to={h.to} className="neon-chip absolute z-[1500] -translate-x-1/2 -translate-y-1/2"
+          <Link key={h.to} to={h.to} className="neon-chip animate-hover-soft absolute z-[1500]"
             style={{ left: `${h.x}%`, top: `${h.y}%` }}>{h.label}</Link>
         ))}
+        </div>
 
         <div className="neon-panel absolute left-3 top-3 z-[2000] flex items-center gap-2 rounded-full py-1 pl-1 pr-4">
           <div className="relative">

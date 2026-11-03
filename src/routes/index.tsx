@@ -18,10 +18,10 @@ export const Route = createFileRoute("/")({
         { src: SPRITES.girl, x: 74, y: 64, msg: "💜" },
       ]}
       hotspots={[
-        { x: 20, y: 24, to: "/cafe", label: "☕ المقهى" },
-        { x: 82, y: 26, to: "/concert", label: "🎤 المسرح" },
-        { x: 16, y: 78, to: "/shop", label: "🛍️ المتجر" },
-        { x: 84, y: 78, to: "/rooms", label: "🌙 الصالات" },
+        { x: 18, y: 26, to: "/cafe", label: "☕ المقهى" },
+        { x: 80, y: 24, to: "/concert", label: "🎤 المسرح" },
+        { x: 14, y: 74, to: "/shop", label: "🛍️ المتجر" },
+        { x: 86, y: 70, to: "/rooms", label: "🌙 الصالات" },
       ]}
     />
   ),
