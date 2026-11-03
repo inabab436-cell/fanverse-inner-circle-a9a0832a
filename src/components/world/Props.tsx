@@ -66,5 +66,5 @@ export function PropArt({ p }: { p: Prop }) {
 }
 
 export function propWidth(p: Prop) {
-  return W[p.kind] * (p.s ?? 1);
+  return W[p.kind] * (p.s ?? 1) * 0.7;
 }

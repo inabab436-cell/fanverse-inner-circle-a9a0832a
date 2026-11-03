@@ -100,7 +100,7 @@ export function Scene({
     ...npcs.map((n, i) => ({ ...n, flip: false, moving: false, ...(npcPos[i] ?? {}), i, me: false })),
     { look: LOOKS.me, x: pos.x, y: pos.y, msg: "", i: -1, me: true, flip, moving: walking },
   ];
-  const chibiH = "calc(clamp(64px,11dvh,100px) * var(--depth))";
+  const chibiH = "calc(clamp(78px,13dvh,118px) * var(--depth))";
 
   return (
     <main dir="ltr" className="flex h-dvh w-full items-center justify-center overflow-hidden bg-night select-none">
