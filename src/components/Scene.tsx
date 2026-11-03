@@ -4,11 +4,14 @@ import { Map as MapIcon, Smile, SendHorizontal, Music, Heart, Gift, Hand, Smartp
 import boy from "@/assets/sprite-boy.webp";
 import girl from "@/assets/sprite-girl.webp";
 import girl2 from "@/assets/sprite-girl2.webp";
+import boy2 from "@/assets/sprite-boy2.webp";
+import boy3 from "@/assets/sprite-boy3.webp";
+import girl3 from "@/assets/sprite-girl3.webp";
 import { PLACES } from "@/lib/places";
 
-export const SPRITES = { boy, girl, girl2 };
+export const SPRITES = { boy, girl, girl2, boy2, boy3, girl3 };
 // which way each drawing naturally faces (true = left)
-const FACES_LEFT: Record<string, boolean> = { [boy]: true, [girl]: false, [girl2]: true };
+const FACES_LEFT: Record<string, boolean> = { [boy]: true, [girl]: false, [girl2]: true, [boy2]: true, [boy3]: true, [girl3]: true };
 const faceFlip = (src: string, wantLeft: boolean) => wantLeft !== (FACES_LEFT[src] ?? false);
 export type Npc = { src: string; x: number; y: number; msg: string };
 export type Light = { x: number; y: number; s: number; kind: "lamp" | "spot" | "floor" };
@@ -111,7 +114,7 @@ export function Scene({
   }), { src: boy, x: pos.x, y: pos.y, msg: "", i: -1, me: true, flip: faceFlip(boy, flip) }];
 
   return (
-    <>{[boy, girl, girl2].map((h) => <link key={h} rel="preload" as="image" href={h} />)}<main dir="ltr" className="flex h-dvh w-full items-center justify-center overflow-hidden bg-night select-none">
+    <>{Object.values(SPRITES).map((h) => <link key={h} rel="preload" as="image" href={h} />)}<main dir="ltr" className="flex h-dvh w-full items-center justify-center overflow-hidden bg-night select-none">
       <div className="fixed inset-0 z-[5000] hidden flex-col items-center justify-center gap-3 bg-night text-glass-foreground landscape:max-lg:flex">
         <Smartphone className="size-12 rotate-90 text-neon-soft" />
         <p className="font-semibold">لف الموبايل للوضع الرأسي</p>
@@ -152,7 +155,7 @@ export function Scene({
               )}
               <span className="absolute bottom-0 left-1/2 h-3 w-3/4 -translate-x-1/2 translate-y-1/2 rounded-[50%] bg-night/60 blur-[3px]" />
               <img src={s.src} alt="" className={`relative w-auto origin-bottom drop-shadow-[0_6px_8px_var(--night)] ${(s.me ? walking : Date.now() - ((s as { m?: number }).m ?? 0) < 2200) ? "animate-bob" : "animate-idle"}`}
-                style={{ height: `calc(clamp(64px,11.5dvh,115px) * ${(0.78 + s.y / 400).toFixed(2)})`, transform: s.flip ? "scaleX(-1)" : undefined, animationDelay: `${(s.i + 1) * 0.37}s` }} />
+                style={{ height: `calc(clamp(84px,15dvh,150px) * ${(0.78 + s.y / 400).toFixed(2)})`, transform: s.flip ? "scaleX(-1)" : undefined, animationDelay: `${(s.i + 1) * 0.37}s`, animationDuration: s.me && walking ? undefined : `${2.4 + ((s.i + 2) % 4) * 0.35}s` }} />
             </div>
           ))}
         </div>

@@ -37,9 +37,9 @@ function Concert() {
       npcs={[
         { src: SPRITES.girl2, x: 32, y: 62, msg: "🔥🔥" },
         { src: SPRITES.girl, x: 66, y: 60, msg: "بحبها! 💜" },
-        { src: SPRITES.boy, x: 22, y: 80, msg: "👏" },
-        { src: SPRITES.boy, x: 78, y: 82, msg: "🎶" },
-        { src: SPRITES.girl, x: 50, y: 64, msg: "😍" },
+        { src: SPRITES.boy2, x: 22, y: 80, msg: "👏" },
+        { src: SPRITES.boy3, x: 78, y: 82, msg: "🎶" },
+        { src: SPRITES.girl3, x: 50, y: 64, msg: "😍" },
       ]}
       hotspots={[{ x: 50, y: 86, to: "/", label: "⭐ الساحة" }]}
     >
