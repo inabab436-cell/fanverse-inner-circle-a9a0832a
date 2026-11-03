@@ -127,7 +127,7 @@ export function Scene({
         <div className="absolute inset-0" onPointerDown={onWalk}>
           {sprites.map((s) => (
             <div key={s.i} className="pointer-events-none absolute"
-              style={{ left: `${s.x}%`, top: `${s.y}%`, zIndex: Math.round(s.y * 10), transform: "translate(-50%, -100%)", transition: s.me ? `left ${dur}ms linear, top ${dur}ms linear` : "left 2s ease-in-out, top 2s ease-in-out" }}>
+              style={{ left: `${s.x}%`, top: `${s.y}%`, zIndex: Math.round(s.y * 10), transform: "translate(-50%, -100%)", transition: s.me ? `left ${dur}ms linear, top ${dur}ms linear` : "left 2.2s linear, top 2.2s linear" }}>
               {s.me && (
                 <>
                   <span className="glow-ring animate-ring absolute left-1/2 top-full size-12 rounded-full border border-neon-cyan/70" />
@@ -143,7 +143,7 @@ export function Scene({
               )}
               <span className="absolute bottom-0 left-1/2 h-3 w-3/4 -translate-x-1/2 translate-y-1/2 rounded-[50%] bg-night/60 blur-[3px]" />
               <img src={s.src} alt="" className={`relative w-auto origin-bottom drop-shadow-[0_6px_8px_var(--night)] ${s.me && walking ? "animate-bob" : "animate-idle"}`}
-                style={{ height: `calc(clamp(64px,11dvh,110px) * ${(0.7 + s.y / 200).toFixed(2)})`, transform: s.flip ? "scaleX(-1)" : undefined, animationDelay: `${(s.i + 1) * 0.37}s` }} />
+                style={{ height: `calc(clamp(80px,14dvh,140px) * ${(0.7 + s.y / 200).toFixed(2)})`, transform: s.flip ? "scaleX(-1)" : undefined, animationDelay: `${(s.i + 1) * 0.37}s` }} />
             </div>
           ))}
         </div>
