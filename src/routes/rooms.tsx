@@ -39,7 +39,7 @@ function Rooms() {
 
   return (
     <Scene
-      floor="carpet"
+      floor="iso"
       props={[
         { kind: "bookshelf", x: 12, y: 22 }, { kind: "window", x: 50, y: 18 }, { kind: "plant", x: 88, y: 22 },
         { kind: "light", x: 40, y: 44 }, { kind: "beanbag", x: 30, y: 40 }, { kind: "beanbag", x: 56, y: 40, c: "oklch(0.85 0.04 80)" }, { kind: "table", x: 43, y: 46, s: 0.8 },

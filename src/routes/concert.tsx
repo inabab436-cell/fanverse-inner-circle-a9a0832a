@@ -30,7 +30,7 @@ function Concert() {
 
   return (
     <Scene
-      floor="tile"
+      floor="iso"
       wall={14}
       props={[
         { kind: "stage", x: 50, y: 34 }, { kind: "speaker", x: 8, y: 32 }, { kind: "speaker", x: 92, y: 32 },

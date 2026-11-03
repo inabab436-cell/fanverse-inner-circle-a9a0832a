@@ -7,7 +7,7 @@ export const Route = createFileRoute("/cafe")({
   head: () => pageHead("المقهى", "للتعارف والمحادثات والجلوس مع الفانز."),
   component: () => (
     <Scene
-      floor="wood"
+      floor="iso"
       props={[
         { kind: "window", x: 14, y: 18, s: 0.8 }, { kind: "sign", x: 50, y: 8, label: "Cafe ☕" }, { kind: "window", x: 86, y: 18, s: 0.8 },
         { kind: "counter", x: 50, y: 30 }, { kind: "stool", x: 36, y: 36 }, { kind: "stool", x: 46, y: 36 }, { kind: "stool", x: 56, y: 36 }, { kind: "stool", x: 66, y: 36 },
