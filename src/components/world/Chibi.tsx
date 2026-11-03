@@ -7,7 +7,7 @@ export type Look = {
   shoes: string;
   skirt?: boolean;
   headphones?: string;
-} satisfies Record<string, Look>;
+};
 
 export const LOOKS = {
   me: { skin: "#f2c7a5", hair: "#2a1d1a", hairStyle: "short", top: "#2b2b35", bottom: "#3b3346", shoes: "#f4f1ee" },
