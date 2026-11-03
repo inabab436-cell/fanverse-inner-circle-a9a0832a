@@ -3,15 +3,15 @@ import type { ReactNode } from "react";
 /** Code-drawn interior/exterior props in a soft 3/4 top-down view. Each has a base width in % of world width. */
 export type PropKind =
   | "plant" | "tree" | "table" | "sofa" | "sofaSide" | "chair" | "lamp" | "counter" | "stage" | "speaker"
-  | "fountain" | "bench" | "rack" | "shelf" | "rug" | "beanbag" | "window" | "bookshelf" | "light" | "stool" | "flowerbed" | "sign";
+  | "fountain" | "bench" | "rack" | "shelf" | "rug" | "beanbag" | "window" | "bookshelf" | "light" | "stool" | "flowerbed" | "sign" | "dance" | "neon" | "truss" | "railing";
 
 export type Prop = { kind: PropKind; x: number; y: number; s?: number; c?: string; label?: string };
 
 const W: Record<PropKind, number> = {
   plant: 7, tree: 20, table: 12, sofa: 22, sofaSide: 9, chair: 6, lamp: 4, counter: 46, stage: 70, speaker: 8,
-  fountain: 30, bench: 14, rack: 18, shelf: 18, rug: 34, beanbag: 10, window: 22, bookshelf: 16, light: 26, stool: 5, flowerbed: 18, sign: 20,
+  fountain: 30, bench: 14, rack: 18, shelf: 18, rug: 34, beanbag: 10, window: 22, bookshelf: 16, light: 26, stool: 5, flowerbed: 18, sign: 20, dance: 44, neon: 22, truss: 74, railing: 30,
 };
-export const FLAT: PropKind[] = ["rug", "light"];
+export const FLAT: PropKind[] = ["rug", "light", "dance"];
 
 function Svg({ vb, children }: { vb: string; children: ReactNode }) {
   return <svg viewBox={vb} className="block h-auto w-full overflow-visible" aria-hidden>{children}</svg>;
@@ -60,11 +60,19 @@ export function PropArt({ p }: { p: Prop }) {
       return <Svg vb="0 0 110 80"><rect x="0" y="0" width="110" height="80" rx="4" fill="var(--wall-trim)" /><rect x="6" y="6" width="98" height="68" fill="var(--sky)" /><circle cx="84" cy="22" r="7" fill="var(--moon)" />{[12, 28, 46, 62].map((x, i) => <rect key={x} x={x} y={36 - (i % 2) * 10} width="12" height={44 + (i % 2) * 10} fill="var(--city)" />)}<rect x="53" y="6" width="4" height="68" fill="var(--wall-trim)" /></Svg>;
     case "flowerbed":
       return <Svg vb="0 0 90 36"><rect x="0" y="12" width="90" height="22" rx="8" fill="var(--stone)" /><ellipse cx="45" cy="13" rx="42" ry="10" fill="var(--leaf-1)" />{[12, 26, 40, 54, 68, 80].map((x, i) => <circle key={x} className="sway" cx={x} cy={9 + (i % 2) * 4} r="4" fill={`var(--flower-${i % 3 + 1})`} />)}</Svg>;
+    case "dance":
+      return <div className="dance-floor aspect-[2/1] w-full" />;
+    case "neon":
+      return <div className="neon-sign text-center font-display text-3xl font-black italic">{p.label}</div>;
+    case "truss":
+      return <Svg vb="0 0 370 40"><rect x="0" y="4" width="370" height="10" fill="none" stroke="var(--metal)" strokeWidth="3" />{Array.from({ length: 18 }, (_, i) => <path key={i} d={`M${i * 20.5} 4 L${i * 20.5 + 10} 14 L${i * 20.5 + 20.5} 4`} stroke="var(--metal)" strokeWidth="2" fill="none" />)}{[40, 100, 160, 210, 270, 330].map((x, i) => <g key={x}><rect x={x - 6} y="14" width="12" height="12" rx="3" fill="var(--dj)" /><circle className="flicker" cx={x} cy="28" r="4" fill={i % 2 ? "var(--neon-pink)" : "var(--neon-soft)"} style={{ animationDelay: `${i * .3}s` }} /></g>)}</Svg>;
+    case "railing":
+      return <Svg vb="0 0 150 30"><rect x="0" y="4" width="150" height="4" rx="2" fill="var(--wood-d)" />{Array.from({ length: 11 }, (_, i) => <rect key={i} x={i * 14.5} y="4" width="3" height="24" fill="var(--wood-d)" />)}</Svg>;
     case "sign":
       return <div className="sign rounded-xl px-3 py-1 text-center font-display text-sm font-bold">{p.label}</div>;
   }
 }
 
 export function propWidth(p: Prop) {
-  return W[p.kind] * (p.s ?? 1) * 0.7;
+  return W[p.kind] * (p.s ?? 1) * 0.85;
 }

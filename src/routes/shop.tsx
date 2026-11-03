@@ -41,7 +41,7 @@ function Shop() {
 
   return (
     <Scene
-      floor="wood"
+      floor="iso"
       props={[
         { kind: "shelf", x: 14, y: 22 }, { kind: "sign", x: 50, y: 8, label: "Merch 🛍️" }, { kind: "shelf", x: 86, y: 22 },
         { kind: "counter", x: 50, y: 30, s: 0.6 }, { kind: "plant", x: 28, y: 30 }, { kind: "plant", x: 72, y: 30 },

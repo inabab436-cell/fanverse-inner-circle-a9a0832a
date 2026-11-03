@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent, type PointerEvent, type ReactNode } from "react";
-import { Map as MapIcon, Smile, SendHorizontal, Music, Heart, Gift, Hand, Smartphone, X } from "lucide-react";
+import { Map as MapIcon, Smile, SendHorizontal, Music, Heart, Gift, Hand, Smartphone, X, Users, Mic, MicOff } from "lucide-react";
 import { PLACES } from "@/lib/places";
 import { Chibi, LOOKS, type Look } from "@/components/world/Chibi";
 import { PropArt, propWidth, FLAT, type Prop } from "@/components/world/Props";
@@ -8,7 +8,7 @@ import { PropArt, propWidth, FLAT, type Prop } from "@/components/world/Props";
 
 export type Npc = { look: Look; x: number; y: number; msg: string };
 export type Hotspot = { x: number; y: number; to: (typeof PLACES)[number]["to"]; label: string };
-export type Floor = "wood" | "tile" | "stone" | "plank" | "carpet";
+export type Floor = "wood" | "tile" | "stone" | "plank" | "carpet" | "iso";
 
 const REACTIONS = [
   { label: "Play", icon: Music, emoji: "🎵" },
@@ -34,7 +34,7 @@ export function Scene({
   const [hint, setHint] = useState(true);
   const [npcMsg, setNpcMsg] = useState(0);
   const [map, setMap] = useState(false);
-  const [reacts, setReacts] = useState(false);
+  const [mic, setMic] = useState(false);
   const [npcPos, setNpcPos] = useState(() => npcs.map((n) => ({ x: n.x, y: n.y, flip: false, moving: false })));
   const [view, setView] = useState({ w: 0, h: 0 });
   const viewRef = useRef<HTMLDivElement>(null);
@@ -69,7 +69,7 @@ export function Scene({
   }, [npcs, walk.minY, walk.maxY]);
 
   // World is much bigger than the screen; camera follows the player
-  const WH = view.h * 1.7;
+  const WH = view.h * 1.3;
   const W = Math.max(view.w, WH * 0.75);
   const camX = view.w ? clamp(view.w / 2 - (pos.x / 100) * W, view.w - W, 0) : 0;
   const camY = view.h ? clamp(view.h * 0.58 - (pos.y / 100) * WH, view.h - WH, 0) : 0;
@@ -100,7 +100,7 @@ export function Scene({
     ...npcs.map((n, i) => ({ ...n, flip: false, moving: false, ...(npcPos[i] ?? {}), i, me: false })),
     { look: LOOKS.me, x: pos.x, y: pos.y, msg: "", i: -1, me: true, flip, moving: walking },
   ];
-  const chibiH = "calc(clamp(78px,13dvh,118px) * var(--depth))";
+  const chibiH = "calc(clamp(66px,11dvh,100px) * var(--depth))";
 
   return (
     <main dir="ltr" className="flex h-dvh w-full items-center justify-center overflow-hidden bg-night select-none">
@@ -161,12 +161,14 @@ export function Scene({
           </div>
           <div className="leading-tight">
             <p className="text-sm font-bold">Ahmed</p>
-            <p className="flex items-center gap-1 text-[11px] opacity-80"><span className="size-1.5 rounded-full bg-online" />{title}</p>
+            <p className="flex items-center gap-1 text-[11px] opacity-80"><span className="size-1.5 rounded-full bg-online" />Online · {title}</p>
           </div>
         </div>
 
         <div className="absolute right-3 top-3 z-[2000] flex flex-col gap-2">
           <button aria-label="الخريطة" onClick={() => setMap(true)} className="neon-btn grid size-11 place-items-center rounded-full"><MapIcon className="size-5" /></button>
+          <button aria-label="الأصدقاء" className="neon-btn grid size-11 place-items-center rounded-full"><Users className="size-5" /></button>
+          <button aria-label="الميكروفون" onClick={() => setMic((m) => !m)} className="neon-btn grid size-11 place-items-center rounded-full">{mic ? <Mic className="size-5 text-online" /> : <MicOff className="size-5" />}</button>
         </div>
 
         {children}
@@ -180,17 +182,12 @@ export function Scene({
               className="min-w-0 flex-1 bg-transparent px-1 text-sm outline-none placeholder:text-glass-foreground/60" />
             <button aria-label="إرسال" className="grid size-8 shrink-0 place-items-center rounded-full bg-neon-gradient"><SendHorizontal className="size-4" /></button>
           </form>
-          <div className="relative shrink-0">
-            {reacts && (
-              <div className="neon-panel absolute bottom-full right-0 mb-2 flex gap-1 rounded-2xl p-1">
-                {REACTIONS.map(({ label, icon: I, emoji }) => (
-                  <button key={label} aria-label={label} onClick={() => { react(emoji); setReacts(false); }} className="grid size-10 place-items-center rounded-xl">
-                    <I className="size-5 text-neon-pink" />
-                  </button>
-                ))}
-              </div>
-            )}
-            <button aria-label="تفاعل" onClick={() => setReacts((v) => !v)} className="neon-btn grid size-11 place-items-center rounded-full"><Heart className="size-5 text-neon-pink" /></button>
+          <div className="flex shrink-0 gap-1">
+            {REACTIONS.map(({ label, icon: I, emoji }) => (
+              <button key={label} aria-label={label} onClick={() => react(emoji)} className="neon-btn flex w-11 flex-col items-center gap-0.5 rounded-2xl py-1.5">
+                <I className="size-5 text-neon-pink" /><span className="text-[10px] font-semibold">{label}</span>
+              </button>
+            ))}
           </div>
         </div>
 
