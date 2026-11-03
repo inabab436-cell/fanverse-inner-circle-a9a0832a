@@ -69,7 +69,7 @@ export function Scene({
   }, [npcs, walk.minY, walk.maxY]);
 
   // World is much bigger than the screen; camera follows the player
-  const WH = view.h * 1.7;
+  const WH = view.h * 1.3;
   const W = Math.max(view.w, WH * 0.75);
   const camX = view.w ? clamp(view.w / 2 - (pos.x / 100) * W, view.w - W, 0) : 0;
   const camY = view.h ? clamp(view.h * 0.58 - (pos.y / 100) * WH, view.h - WH, 0) : 0;
@@ -100,7 +100,7 @@ export function Scene({
     ...npcs.map((n, i) => ({ ...n, flip: false, moving: false, ...(npcPos[i] ?? {}), i, me: false })),
     { look: LOOKS.me, x: pos.x, y: pos.y, msg: "", i: -1, me: true, flip, moving: walking },
   ];
-  const chibiH = "calc(clamp(78px,13dvh,118px) * var(--depth))";
+  const chibiH = "calc(clamp(66px,11dvh,100px) * var(--depth))";
 
   return (
     <main dir="ltr" className="flex h-dvh w-full items-center justify-center overflow-hidden bg-night select-none">
