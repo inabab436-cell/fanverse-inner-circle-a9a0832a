@@ -137,7 +137,7 @@ export function Scene({
               )}
               <span className="absolute bottom-0 left-1/2 h-3 w-3/4 -translate-x-1/2 translate-y-1/2 rounded-[50%] bg-night/60 blur-[3px]" />
               <img src={s.src} alt="" className={`relative w-auto origin-bottom drop-shadow-[0_6px_8px_var(--night)] ${s.me && walking ? "animate-bob" : "animate-idle"}`}
-                style={{ height: `calc(clamp(120px,21dvh,200px) * ${(0.6 + s.y / 160).toFixed(2)})`, transform: s.flip ? "scaleX(-1)" : undefined, animationDelay: `${(s.i + 1) * 0.37}s` }} />
+                style={{ height: `calc(clamp(100px,17dvh,175px) * ${(0.6 + s.y / 160).toFixed(2)})`, transform: s.flip ? "scaleX(-1)" : undefined, animationDelay: `${(s.i + 1) * 0.37}s` }} />
             </div>
           ))}
         </div>
