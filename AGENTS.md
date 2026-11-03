@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- The product is a portrait-only 2D pixel-art world: each area (plaza, cafe, concert, rooms, shop) is its own route rendering the shared Scene component (background image + sprites in % coordinates); keep legacy database tables untouched while their UI is retired, to avoid destructive data loss.
