@@ -7,16 +7,16 @@ export type Look = {
   shoes: string;
   skirt?: boolean;
   headphones?: string;
-};
+} satisfies Record<string, Look>;
 
-export const LOOKS: Record<string, Look> = {
+export const LOOKS = {
   me: { skin: "#f2c7a5", hair: "#2a1d1a", hairStyle: "short", top: "#2b2b35", bottom: "#3b3346", shoes: "#f4f1ee" },
   girl: { skin: "#f5cfb3", hair: "#6b4330", hairStyle: "long", top: "#f3a6c0", bottom: "#6e8fc7", shoes: "#f4f1ee" },
   girl2: { skin: "#efc3a1", hair: "#1f1a24", hairStyle: "long", top: "#26222e", bottom: "#26222e", shoes: "#1f1c25", skirt: true, headphones: "#b9a6e8" },
   boy: { skin: "#e6b994", hair: "#3a2a22", hairStyle: "short", top: "#e9e6ef", bottom: "#4c5f86", shoes: "#2b2b35" },
   bob: { skin: "#f5d2b8", hair: "#c26a4a", hairStyle: "bob", top: "#8fc4a8", bottom: "#f1e6d2", shoes: "#c26a4a", skirt: true },
   boy2: { skin: "#c99572", hair: "#16120f", hairStyle: "short", top: "#e8b35a", bottom: "#2f2f3a", shoes: "#f4f1ee" },
-};
+} satisfies Record<string, Look>;
 
 /** Code-drawn chibi character. Legs swing while walking, body breathes while idle. */
 export function Chibi({ look, walking, className, style }: { look: Look; walking?: boolean; className?: string; style?: React.CSSProperties }) {

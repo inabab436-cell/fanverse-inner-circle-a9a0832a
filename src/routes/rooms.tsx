@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
 import { DoorOpen, Link2, Plus, X } from "lucide-react";
-import { Scene, LOOKS } from "@/components/Scene";
+import { Scene } from "@/components/Scene";
+import { LOOKS } from "@/components/world/Chibi";
 import { pageHead } from "@/lib/head";
 
 export const Route = createFileRoute("/rooms")({

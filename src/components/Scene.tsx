@@ -5,7 +5,7 @@ import { PLACES } from "@/lib/places";
 import { Chibi, LOOKS, type Look } from "@/components/world/Chibi";
 import { PropArt, propWidth, FLAT, type Prop } from "@/components/world/Props";
 
-export { LOOKS };
+
 export type Npc = { look: Look; x: number; y: number; msg: string };
 export type Hotspot = { x: number; y: number; to: (typeof PLACES)[number]["to"]; label: string };
 export type Floor = "wood" | "tile" | "stone" | "plank" | "carpet";
